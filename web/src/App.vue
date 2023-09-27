@@ -19,7 +19,7 @@ export default {
     $.ajax({
       url: "http://127.0.0.1:3000/pk/getbotinfo/",
       type: "get",
-      succeess: resp => {
+      success: resp => {
         bot_name.value = resp.name;
         bot_rating.value = resp.rating;
       }
