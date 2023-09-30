@@ -1,8 +1,7 @@
 <template>
     <div ref="parent" class="gamemap">
-        <canvas ref="canvas"></canvas>
+        <canvas ref="canvas" tabindex="0"></canvas>
     </div>
-
 </template>
 
 <script>
@@ -18,13 +17,12 @@ export default {
             new GameMap(canvas.value.getContext('2d'), parent.value)
         });
 
-        return { 
+        return {
             parent,
             canvas
         }
     }
 }
-
 </script>
 
 <style scoped>
@@ -36,3 +34,4 @@ div.gamemap {
     align-items: center;
 }
 </style>
+
