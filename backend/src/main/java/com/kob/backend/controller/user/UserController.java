@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kob.backend.mapper.UserMapper;
 import com.kob.backend.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +38,9 @@ public class UserController {
             @PathVariable int userId,
             @PathVariable String username,
             @PathVariable String password) { // 读入上面几个变量
-        User user = new User(userId, username, password); // 定义一个user object
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(password); // 将存的密码按照加密之后的密码存进数据库
+        User user = new User(userId, username, encodedPassword); // 定义一个user object
         userMapper.insert(user); // 插入user操作
         return "Add User Successfully";
     }
