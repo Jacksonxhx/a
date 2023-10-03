@@ -38,7 +38,7 @@ export class Snake extends AcGameObject {
             [1, -1],
         ]
     }
-
+    
     start() {
 
     }
