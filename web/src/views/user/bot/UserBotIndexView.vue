@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <div class="error-message">{{ botadd.error_message }}</div>
-                                    <button type="button" class="btn btn-primary" @click="add_bot">Create</button>
+                                    <button type="button" class="btn btn-primary" @click="add_bot" data-bs-dismiss="modal">Create</button>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 </div>
                                 </div>
@@ -88,7 +88,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <div class="error-message">{{ bot.error_message }}</div>
-                                                        <button type="button" class="btn btn-primary" @click="update_bot(bot)">Save modify</button>
+                                                        <button type="button" class="btn btn-primary" @click="update_bot(bot)" data-bs-dismiss="modal">Save modify</button>
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
@@ -110,7 +110,6 @@
 import { ref, reactive } from 'vue'
 import $ from 'jquery'
 import { useStore } from 'vuex'
-import { Modal } from 'bootstrap/dist/js/bootstrap'
 
 export default {
     setup() {
@@ -157,7 +156,6 @@ export default {
                         botadd.title = "";
                         botadd.description = "";
                         botadd.content = "";
-                        Modal.getInstance("#add-bot-btn").hide();
                         refresh_bots();
                     } else {
                         botadd.error_message = resp.error_message;
@@ -182,7 +180,6 @@ export default {
                 },
                 success(resp) {
                     if (resp.error_message === "success") {
-                        Modal.getInstance('#update-bot-modal-' + bot.id).hide();
                         refresh_bots();
                     } else {
                         botadd.error_message = resp.error_message;
