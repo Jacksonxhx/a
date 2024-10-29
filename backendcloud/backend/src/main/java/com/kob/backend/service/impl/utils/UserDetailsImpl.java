@@ -14,7 +14,7 @@ import java.util.Collection;
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    private User user; // 用pojo的User
+    private User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

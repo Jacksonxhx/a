@@ -15,7 +15,6 @@ import java.util.Map;
 
 @Service
 public class RemoveServiceImpl implements RemoveService {
-
     @Autowired
     private BotMapper botMapper;
 
@@ -31,19 +30,18 @@ public class RemoveServiceImpl implements RemoveService {
         Map<String, String> map = new HashMap<>();
 
         if (bot == null) {
-            map.put("error_message", "Bot not existed or already being deleted");
+            map.put("error_message", "Bot不存在或已被删除");
             return map;
         }
 
         if (!bot.getUserId().equals(user.getId())) {
-            map.put("error_message", "No authorization to delete the bot");
+            map.put("error_message", "没有权限删除该Bot");
             return map;
         }
 
         botMapper.deleteById(bot_id);
 
         map.put("error_message", "success");
-
         return map;
     }
 }

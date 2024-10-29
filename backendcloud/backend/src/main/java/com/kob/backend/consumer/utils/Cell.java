@@ -10,4 +10,3 @@ import lombok.NoArgsConstructor;
 public class Cell {
     int x, y;
 }
-

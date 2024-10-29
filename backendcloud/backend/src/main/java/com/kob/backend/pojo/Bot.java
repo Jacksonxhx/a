@@ -15,13 +15,12 @@ import java.util.Date;
 public class Bot {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private Integer userId;  // 数据库用下划线，pojo需要驼峰命名
+    private Integer userId;
     private String title;
     private String description;
     private String content;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "America/New_York")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Date createtime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "America/New_York")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Date modifytime;
-
 }

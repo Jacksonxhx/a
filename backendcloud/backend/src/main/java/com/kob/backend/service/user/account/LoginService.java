@@ -3,5 +3,5 @@ package com.kob.backend.service.user.account;
 import java.util.Map;
 
 public interface LoginService {
-    Map<String, String> getToken(String username, String password); // 最后返回一个map
+    public Map<String, String> getToken(String username, String password);
 }

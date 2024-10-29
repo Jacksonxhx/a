@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import PkIndexView from '../views/pk/PkIndexView'
 import RecordIndexView from '../views/record/RecordIndexView'
+import RecordContentView from '../views/record/RecordContentView'
 import RanklistIndexView from '../views/ranklist/RanklistIndexView'
-import NotFound from '../views/error/NotFound'
 import UserBotIndexView from '../views/user/bot/UserBotIndexView'
+import NotFound from '../views/error/NotFound'
 import UserAccountLoginView from '../views/user/account/UserAccountLoginView'
 import UserAccountRegisterView from '../views/user/account/UserAccountRegisterView'
+import UserAccountAcWingWebReceiveCodeView from '../views/user/account/UserAccountAcWingWebReceiveCodeView'
 import store from '../store/index'
 
 const routes = [
@@ -21,6 +23,22 @@ const routes = [
     path: "/pk/",
     name: "pk_index",
     component: PkIndexView,
+    meta: {
+      requestAuth: true,
+    }
+  },
+  {
+    path: "/record/",
+    name: "record_index",
+    component: RecordIndexView,
+    meta: {
+      requestAuth: true,
+    }
+  },
+  {
+    path: "/record/:recordId/",
+    name: "record_content",
+    component: RecordContentView,
     meta: {
       requestAuth: true,
     }
@@ -58,11 +76,11 @@ const routes = [
     }
   },
   {
-    path: "/record/",
-    name: "record_index",
-    component: RecordIndexView,
+    path: "/user/account/acwing/web/receive_code/",
+    name: "user_account_acwing_web_receive_code",
+    component: UserAccountAcWingWebReceiveCodeView,
     meta: {
-      requestAuth: true,
+      requestAuth: false,
     }
   },
   {
@@ -74,7 +92,7 @@ const routes = [
     }
   },
   {
-    path: "/:catchAll()",
+    path: "/:catchAll(.*)",
     redirect: "/404/"
   }
 ]
@@ -84,7 +102,6 @@ const router = createRouter({
   routes
 })
 
-// 每次用router进入到页面之前会使用的函数，从哪个页面跳转到哪个，要不要执行next
 router.beforeEach((to, from, next) => {
   if (to.meta.requestAuth && !store.state.user.is_login) {
     next({name: "user_account_login"});

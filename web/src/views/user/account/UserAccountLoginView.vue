@@ -4,17 +4,21 @@
             <div class="col-3">
                 <form @submit.prevent="login">
                     <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input v-model="username" type="text" class="form-control" id="username" placeholder="Please eneter your username">
+                        <label for="username" class="form-label">用户名</label>
+                        <input v-model="username" type="text" class="form-control" id="username" placeholder="请输入用户名">
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input v-model="password" type="password" class="form-control" id="password" placeholder="Please eneter your password" aria-describedby="passwordHelp">
-                        <div id="passwordHelp" class="form-text">We'll never share your password with others.</div>
+                        <label for="password" class="form-label">密码</label>
+                        <input v-model="password" type="password" class="form-control" id="password" placeholder="请输入密码">
                     </div>
                     <div class="error-message">{{ error_message }}</div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">提交</button>
                 </form>
+                <div style="text-align: center; margin-top: 20px; cursor: pointer;" @click="acwing_login">
+                    <img width="30" src="https://cdn.acwing.com/media/article/image/2022/09/06/1_32f001fd2d-acwing_logo.png" alt="">
+                    <br>
+                    AcWing一键登录
+                </div>
             </div>
         </div>
     </ContentField>
@@ -25,6 +29,7 @@ import ContentField from '../../../components/ContentField.vue'
 import { useStore } from 'vuex'
 import { ref } from 'vue'
 import router from '../../../router/index'
+import $ from 'jquery'
 
 export default {
     components: {
@@ -52,8 +57,6 @@ export default {
             store.commit("updatePullingInfo", false);
         }
 
-
-        // login实现页面跳转以及输出用户名密码错误
         const login = () => {
             error_message.value = "";
             store.dispatch("login", {
@@ -67,7 +70,19 @@ export default {
                     })
                 },
                 error() {
-                    error_message.value = "Password or Username incorrect";
+                    error_message.value = "用户名或密码错误";
+                }
+            })
+        }
+
+        const acwing_login = () => {
+            $.ajax({
+                url: "https://app2703.acapp.acwing.com.cn/api/user/account/acwing/web/apply_code/",
+                type: "GET",
+                success: resp => {
+                    if (resp.result === "success") {
+                        window.location.replace(resp.apply_code_url);
+                    }
                 }
             })
         }
@@ -77,6 +92,7 @@ export default {
             password,
             error_message,
             login,
+            acwing_login,
         }
     }
 }
@@ -84,7 +100,7 @@ export default {
 
 <style scoped>
 button {
-    width: 100%
+    width: 100%;
 }
 div.error-message {
     color: red;

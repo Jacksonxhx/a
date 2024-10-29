@@ -11,98 +11,106 @@
             <div class="col-9">
                 <div class="card" style="margin-top: 20px;">
                     <div class="card-header">
-                        <span style="font-size: 170%;">
-                            My Bots
-                        </span>
-                        <button type="button" class="btn btn-dark float-end" data-bs-toggle="modal" data-bs-target="#add-bot-btn">
-                            Create a Bot
+                        <span style="font-size: 130%">我的Bot</span>
+                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#add-bot-btn">
+                            创建Bot
                         </button>
+
                         <!-- Modal -->
-                        <div class="modal fade" id="add-bot-btn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade" id="add-bot-btn" tabindex="-1">
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5">Create a Bot</h1>
+                                    <h5 class="modal-title">创建Bot</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="mb-3">
-                                        <label for="add-bot-title" class="form-label">Title</label>
-                                        <input v-model="botadd.title" type="text" class="form-control" id="add-bot-title" placeholder="Name your bot!">
+                                        <label for="add-bot-title" class="form-label">名称</label>
+                                        <input v-model="botadd.title" type="text" class="form-control" id="add-bot-title" placeholder="请输入Bot名称">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="add-bot-description" class="form-label">Description</label>
-                                        <textarea v-model="botadd.description" class="form-control" id="add-bot-description" rows="3" placeholder="Describe your bot!"></textarea>
+                                        <label for="add-bot-description" class="form-label">简介</label>
+                                        <textarea v-model="botadd.description" class="form-control" id="add-bot-description" rows="3" placeholder="请输入Bot简介"></textarea>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="add-bot-code" class="form-label">Code</label>
-                                        <textarea v-model="botadd.content" class="form-control" id="add-bot-code" rows="15" placeholder="Code your bot!"></textarea>
+                                        <label for="add-bot-code" class="form-label">代码</label>
+                                        <VAceEditor
+                                            v-model:value="botadd.content"
+                                            @init="editorInit"
+                                            lang="c_cpp"
+                                            theme="textmate"
+                                            style="height: 300px" />
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <div class="error-message">{{ botadd.error_message }}</div>
-                                    <button type="button" class="btn btn-primary" @click="add_bot" data-bs-dismiss="modal">Create</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" @click="add_bot">创建</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                                 </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover">
+                        <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>NAME</th>
-                                    <th>CREATE TIME</th>
-                                    <th>ADD/DELETE</th>
+                                    <th>名称</th>
+                                    <th>创建时间</th>
+                                    <th>操作</th>
                                 </tr>
                             </thead>
-                            <tbody> 
-                                <tr v-for="bot in bots" :key="bot.id">      
+                            <tbody>
+                                <tr v-for="bot in bots" :key="bot.id">
                                     <td>{{ bot.title }}</td>
                                     <td>{{ bot.createtime }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-outline-secondary" style="margin-right: 5px;" data-bs-toggle="modal" :data-bs-target="'#update-bot-modal-' + bot.id">Modify</button>
-                                        <button type="button" class="btn btn-outline-danger" @click="remove_bot(bot)">Delete</button>
+                                        <button type="button" class="btn btn-secondary" style="margin-right: 10px;" data-bs-toggle="modal" :data-bs-target="'#update-bot-modal-' + bot.id">修改</button>
+                                        <button type="button" class="btn btn-danger" @click="remove_bot(bot)">删除</button>
 
-                                        <div class="modal fade" :id="'update-bot-modal-' + bot.id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal fade" :id="'update-bot-modal-' + bot.id" tabindex="-1">
                                             <div class="modal-dialog modal-xl">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5">Modify</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">创建Bot</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label for="add-bot-title" class="form-label">名称</label>
+                                                        <input v-model="bot.title" type="text" class="form-control" id="add-bot-title" placeholder="请输入Bot名称">
                                                     </div>
-                                                    <div class="modal-body">  
-                                                        <div class="mb-3">
-                                                            <label for="add-bot-title" class="form-label">Title</label>
-                                                            <input v-model="bot.title" type="text" class="form-control" id="add-bot-title" placeholder="Name your bot!">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="add-bot-description" class="form-label">Description</label>
-                                                            <textarea v-model="bot.description" class="form-control" id="add-bot-description" rows="3" placeholder="Describe your bot!"></textarea>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="add-bot-code" class="form-label">Code</label>
-                                                            <textarea v-model="bot.content" class="form-control" id="add-bot-code" rows="15" placeholder="Code your bot!"></textarea>
-                                                        </div>
+                                                    <div class="mb-3">
+                                                        <label for="add-bot-description" class="form-label">简介</label>
+                                                        <textarea v-model="bot.description" class="form-control" id="add-bot-description" rows="3" placeholder="请输入Bot简介"></textarea>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <div class="error-message">{{ bot.error_message }}</div>
-                                                        <button type="button" class="btn btn-primary" @click="update_bot(bot)" data-bs-dismiss="modal">Save modify</button>
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <div class="mb-3">
+                                                        <label for="add-bot-code" class="form-label">代码</label>
+                                                        <VAceEditor
+                                                            v-model:value="bot.content"
+                                                            @init="editorInit"
+                                                            lang="c_cpp"
+                                                            theme="textmate"
+                                                            style="height: 300px" />
                                                     </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="error-message">{{ bot.error_message }}</div>
+                                                    <button type="button" class="btn btn-primary" @click="update_bot(bot)">保存修改</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                    </div> 
+                    </div>
                 </div>
             </div>
-        </div>  
+        </div>
     </div>
 </template>
 
@@ -110,9 +118,19 @@
 import { ref, reactive } from 'vue'
 import $ from 'jquery'
 import { useStore } from 'vuex'
+import { Modal } from 'bootstrap/dist/js/bootstrap'
+import { VAceEditor } from 'vue3-ace-editor';
+import ace from 'ace-builds';
 
 export default {
+    components: {
+        VAceEditor
+    },
     setup() {
+        ace.config.set(
+            "basePath", 
+            "https://cdn.jsdelivr.net/npm/ace-builds@" + require('ace-builds').version + "/src-noconflict/")
+
         const store = useStore();
         let bots = ref([]);
 
@@ -121,11 +139,11 @@ export default {
             description: "",
             content: "",
             error_message: "",
-        })
+        });
 
         const refresh_bots = () => {
             $.ajax({
-                url: "http://127.0.0.1:3000/user/bot/getlist/",
+                url: "https://app2703.acapp.acwing.com.cn/api/user/bot/getlist/",
                 type: "get",
                 headers: {
                     Authorization: "Bearer " + store.state.user.token,
@@ -139,9 +157,9 @@ export default {
         refresh_bots();
 
         const add_bot = () => {
-            botadd.error_message = "",
-            $.ajax ({
-                url: "http://127.0.0.1:3000/user/bot/add/",  
+            botadd.error_message = "";
+            $.ajax({
+                url: "https://app2703.acapp.acwing.com.cn/api/user/bot/add/",
                 type: "post",
                 data: {
                     title: botadd.title,
@@ -149,13 +167,14 @@ export default {
                     content: botadd.content,
                 },
                 headers: {
-                    Authorization: "Bearer " + store.state.user.token
+                    Authorization: "Bearer " + store.state.user.token,
                 },
                 success(resp) {
                     if (resp.error_message === "success") {
                         botadd.title = "";
                         botadd.description = "";
                         botadd.content = "";
+                        Modal.getInstance("#add-bot-btn").hide();
                         refresh_bots();
                     } else {
                         botadd.error_message = resp.error_message;
@@ -165,9 +184,9 @@ export default {
         }
 
         const update_bot = (bot) => {
-            botadd.error_message = "",
-            $.ajax ({
-                url: "http://127.0.0.1:3000/user/bot/update/",
+            botadd.error_message = "";
+            $.ajax({
+                url: "https://app2703.acapp.acwing.com.cn/api/user/bot/update/",
                 type: "post",
                 data: {
                     bot_id: bot.id,
@@ -176,10 +195,11 @@ export default {
                     content: bot.content,
                 },
                 headers: {
-                    Authorization: "Bearer " + store.state.user.token
+                    Authorization: "Bearer " + store.state.user.token,
                 },
                 success(resp) {
                     if (resp.error_message === "success") {
+                        Modal.getInstance('#update-bot-modal-' + bot.id).hide();
                         refresh_bots();
                     } else {
                         botadd.error_message = resp.error_message;
@@ -189,8 +209,8 @@ export default {
         }
 
         const remove_bot = (bot) => {
-            $.ajax ({
-                url:"http://127.0.0.1:3000/user/bot/remove/",
+            $.ajax({
+                url: "https://app2703.acapp.acwing.com.cn/api/user/bot/remove/",
                 type: "post",
                 data: {
                     bot_id: bot.id,
@@ -221,5 +241,4 @@ export default {
 div.error-message {
     color: red;
 }
-
 </style>

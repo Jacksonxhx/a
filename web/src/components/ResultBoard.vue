@@ -14,7 +14,7 @@
         </div>
         <div class="result-board-btn">
             <button @click="restart" type="button" class="btn btn-warning btn-lg">
-                Again!
+                再来!
             </button>
         </div>
     </div>    
@@ -31,7 +31,7 @@ export default {
             store.commit("updateStatus", "matching");
             store.commit("updateLoser", "none");
             store.commit("updateOpponent", {
-                username: "My Opponent",
+                username: "我的对手",
                 photo: "https://cdn.acwing.com/media/article/image/2022/08/09/1_1db2488f17-anonymous.png",
             })
         }
@@ -66,4 +66,3 @@ div.result-board-btn {
     text-align: center;
 }
 </style>
-

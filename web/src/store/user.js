@@ -1,13 +1,13 @@
 import $ from 'jquery'
 
-export default{
+export default {
     state: {
         id: "",
         username: "",
         photo: "",
         token: "",
         is_login: false,
-        pulling_info: true,
+        pulling_info: true,  // 是否正在从云端拉取信息
     },
     getters: {
     },
@@ -31,15 +31,15 @@ export default{
         updatePullingInfo(state, pulling_info) {
             state.pulling_info = pulling_info;
         }
-    },  
+    },
     actions: {
         login(context, data) {
             $.ajax({
-                url: "http://127.0.0.1:3000/user/account/token/",
+                url: "https://app2703.acapp.acwing.com.cn/api/user/account/token/",
                 type: "post",
                 data: {
-                  username: data.username,
-                  password: data.password,
+                    username: data.username,
+                    password: data.password,
                 },
                 success(resp) {
                     if (resp.error_message === "success") {
@@ -51,14 +51,14 @@ export default{
                     }
                 },
                 error(resp) {
-                  data.error(resp);
+                    data.error(resp);
                 }
-              });
+            });
         },
         getinfo(context, data) {
             $.ajax({
-                url: "http://127.0.0.1:3000/user/account/info/",
-                type: 'get',
+                url: "https://app2703.acapp.acwing.com.cn/api/user/account/info/",
+                type: "get",
                 headers: {
                     Authorization: "Bearer " + context.state.token,
                 },
@@ -76,7 +76,7 @@ export default{
                 error(resp) {
                     data.error(resp);
                 }
-            });
+            })
         },
         logout(context) {
             localStorage.removeItem("jwt_token");
